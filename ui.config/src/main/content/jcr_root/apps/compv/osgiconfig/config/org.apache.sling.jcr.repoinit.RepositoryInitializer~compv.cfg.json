@@ -1,0 +1,7 @@
+{
+    "scripts": [
+        "create path (sling:OrderedFolder) /content/dam/compv",
+        "create path (nt:unstructured) /content/dam/compv/jcr:content",
+        "set properties on /content/dam/compv/jcr:content\n  set cq:conf{String} to /conf/compv\n  set jcr:title{String} to \"Component Viewer\"\nend"
+    ]
+}
