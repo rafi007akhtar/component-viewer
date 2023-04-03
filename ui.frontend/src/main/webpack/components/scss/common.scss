@@ -22,8 +22,13 @@
 
 .hide-panel {
     float: right;
-    padding-top: 0;
-    padding-right: 0;
+    border: 1px solid black;
+    border-radius: 0;
+    margin: 0;
+    padding: 0;
+    margin-bottom: 8px;
+    background: lightgrey;
+    font-size: 20px;
 }
 
 #panelToast button {

@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
+import { getHTML } from '../helpers/util';
 
 // List all the component names here
 // source folder will be ../components/html
@@ -100,7 +101,6 @@ document.onkeyup = (e) => {
  * @param {HTMLElement} el the HTML element for the component
  */
 function selectAComponent(name, el) {
-  console.log("component to be selected", name);
   const currentlyActive = document.querySelector(".list-group-item.active");
   if (currentlyActive) {
     currentlyActive.classList.remove("active");
@@ -110,8 +110,9 @@ function selectAComponent(name, el) {
 }
 
 function displayComponent(name) {
-  const jsFileName = `${name}.js`;
-  const jsFile = require("./js/" + jsFileName);
-  const dump = document.querySelector("#dump");
-  dump.innerHTML = jsFile.getHTML();
+  // const jsFileName = `${name}.js`;
+  // const jsFile = require("./js/" + jsFileName);
+  // const dump = document.querySelector("#dump");
+  // dump.innerHTML = jsFile.getHTML();
+  dump.innerHTML = getHTML(name);
 }
