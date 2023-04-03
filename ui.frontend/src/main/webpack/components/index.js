@@ -15,6 +15,11 @@ const COMPONENTS = [
 // add buttons for each component in the DOM
 const componentList = document.querySelector("#component-list");
 
+/**
+ * To generate the list of components on the left panel of the index page
+ * @param {string} searchTerms (optional) The search terms user enters on the input field.
+ * When not supplied, it will list all the components.
+ */
 function generateComponentList(searchTerms) {
   componentList.innerHTML = "";
   let searchedComponents = [...COMPONENTS];
@@ -40,6 +45,52 @@ generateComponentList();
 const componentSearch = document.querySelector("#component-search");
 componentSearch.onchange = () => {
   generateComponentList(componentSearch.value);
+};
+
+// implement show / hide panel functionality
+const hidePanelButton = document.querySelector("#hide-panel");
+const panel = document.querySelector("#panel");
+const componentView = document.querySelector("#component-view");
+
+/**
+ * Hides the left panel containing component list, and gives all the columns to the selected component
+ */
+function hidePanel() {
+  panel.style.display = "none";
+  componentView.classList.remove("col-8");
+  componentView.classList.add("col-12");
+
+  const toastTrigger = document.getElementById("hide-panel");
+  const toastLiveExample = document.getElementById("panelToast");
+  if (toastTrigger) {
+    const toastBootstrap =
+      bootstrap.Toast.getOrCreateInstance(toastLiveExample);
+    toastBootstrap.show();
+  }
+}
+
+/**
+ * Brings back the left panel, if hidden.
+ */
+function showPanel() {
+  panel.style.display = "block";
+  componentView.classList.remove("col-12");
+  componentView.classList.add("col-8");
+}
+
+hidePanelButton.onclick = () => {
+  hidePanel();
+};
+
+document.onkeyup = (e) => {
+  if (e.ctrlKey) {
+    if (e.key === "ArrowRight") {
+      showPanel();
+    }
+    if (e.key === "ArrowLeft") {
+      hidePanel();
+    }
+  }
 };
 
 /**

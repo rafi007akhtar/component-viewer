@@ -4,6 +4,9 @@
 
 .component-list-header, .dump-placeholder {
     font-weight: 600;
+}
+
+.dump-placeholder {
     text-align: center;
 }
 
@@ -15,5 +18,15 @@
     padding: 10px 20px 10px 40px;
     font-size: 14px;
     border-radius: 0;
+}
+
+.hide-panel {
+    float: right;
+    padding-top: 0;
+    padding-right: 0;
+}
+
+#panelToast button {
+    width: 50px;
 }
 

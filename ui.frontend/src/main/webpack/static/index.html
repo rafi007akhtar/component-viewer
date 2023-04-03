@@ -15,14 +15,26 @@
 
 <body class="page basicpage">
   <div class="row">
-    <div class="col-4">
-      <div class="component-list-header">List of components</div>
+    <div class="col-4" id="panel">
+      <div class="component-list-header">
+        <button class="btn hide-panel" title="Click to hide the component list panel (or press Ctrl + Left Arrow Key)" id="hide-panel">⛔</button>
+        List of components
+      </div>
       <input type="text" class="component-search form-control" placeholder="Start typing and press Enter" id="component-search" />
       <div class="list-group" id="component-list"></div>
     </div>
-    <div class="col-8">
+    <div class="col-8" id="component-view">
       <div id="dump" class="dump">
         <div class="dump-placeholder">Select a component to view it here.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast-container position-fixed p-3 bottom-0 start-50 translate-middle-x">
+    <div id="panelToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="toast-body row">
+        <div class="col-10">Panel Hidden! To bring it back, press Ctrl + Right Arrow Key, or refresh.</div>
+      <button type="button" class="col-2 btn btn-danger btn-sm" data-bs-dismiss="toast">X</button>
       </div>
     </div>
   </div>
