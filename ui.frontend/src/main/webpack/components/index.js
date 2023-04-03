@@ -14,16 +14,33 @@ const COMPONENTS = [
 
 // add buttons for each component in the DOM
 const componentList = document.querySelector("#component-list");
-COMPONENTS.forEach((comp) => {
-  const el = document.createElement("button");
-  el.setAttribute("type", "button");
-  el.setAttribute("class", `list-group-item list-group-item-action ${comp}`);
-  el.innerText = comp;
-  el.onclick = () => {
-    selectAComponent(comp, el);
-  };
-  componentList.append(el);
-});
+
+function generateComponentList(searchTerms) {
+  componentList.innerHTML = "";
+  let searchedComponents = [...COMPONENTS];
+  if (searchTerms) {
+    searchedComponents = searchedComponents.filter((comp) =>
+      comp.includes(searchTerms)
+    );
+  }
+  searchedComponents.forEach((comp) => {
+    const el = document.createElement("button");
+    el.setAttribute("type", "button");
+    el.setAttribute("class", `list-group-item list-group-item-action ${comp}`);
+    el.innerText = comp;
+    el.onclick = () => {
+      selectAComponent(comp, el);
+    };
+    componentList.append(el);
+  });
+}
+
+generateComponentList();
+
+const componentSearch = document.querySelector("#component-search");
+componentSearch.onchange = () => {
+  generateComponentList(componentSearch.value);
+};
 
 /**
  * Pass the name and HTML element of the component to be selected, and it will be displayed in the DOM.
@@ -32,13 +49,13 @@ COMPONENTS.forEach((comp) => {
  * @param {HTMLElement} el the HTML element for the component
  */
 function selectAComponent(name, el) {
-    console.log('component to be selected', name);
-    const currentlyActive = document.querySelector(".list-group-item.active");
-    if (currentlyActive) {
-      currentlyActive.classList.remove("active");
-    }
-    el.classList.add("active");
-    displayComponent(name);
+  console.log("component to be selected", name);
+  const currentlyActive = document.querySelector(".list-group-item.active");
+  if (currentlyActive) {
+    currentlyActive.classList.remove("active");
+  }
+  el.classList.add("active");
+  displayComponent(name);
 }
 
 function displayComponent(name) {
@@ -47,4 +64,3 @@ function displayComponent(name) {
   const dump = document.querySelector("#dump");
   dump.innerHTML = jsFile.getHTML();
 }
-
