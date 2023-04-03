@@ -27,6 +27,9 @@ module.exports = {
         },
         path: path.resolve(__dirname, 'dist')
     },
+    externals: {
+        "fs": "commonjs fs"
+    },
     module: {
         rules: [
             {
@@ -74,6 +77,9 @@ module.exports = {
                         }
                     }
                 ]
+            },
+            {
+                rules: [{ test: /\.html$/, use: 'raw-loader' }],
             }
         ]
     },
