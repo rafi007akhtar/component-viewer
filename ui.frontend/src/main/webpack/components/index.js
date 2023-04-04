@@ -1,17 +1,21 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 import { getHTML } from '../helpers/util';
 
-// List all the component names here
-// source folder will be ../components/html
-// do not put .html extension at the end
-// TODO: figure out a way to make this list dynamic, so that it automatically lists the components from the folder
-const COMPONENTS = [
-  "component1",
-  "component2",
-  "component3",
-  "component4",
-  "component5",
-];
+const componentFiles = require.context(
+  '../components/html',
+  false,
+  /\.html$/
+).keys();
+
+// List of all the components
+// DONE: figure out a way to make this list dynamic, so that it automatically lists the components from the folder
+const COMPONENTS = componentFiles.map(file => {
+  const extensionInd = file.lastIndexOf('.');
+  const FIST_LETTER_IND = 2;  // because files are retrieved like './component1.html'
+  return file.substring(FIST_LETTER_IND, extensionInd);
+});
+
+
 
 // add buttons for each component in the DOM
 const componentList = document.querySelector("#component-list");
@@ -110,9 +114,5 @@ function selectAComponent(name, el) {
 }
 
 function displayComponent(name) {
-  // const jsFileName = `${name}.js`;
-  // const jsFile = require("./js/" + jsFileName);
-  // const dump = document.querySelector("#dump");
-  // dump.innerHTML = jsFile.getHTML();
   dump.innerHTML = getHTML(name);
 }
