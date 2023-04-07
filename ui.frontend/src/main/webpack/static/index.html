@@ -27,7 +27,7 @@
       <input type="text" class="component-search form-control" placeholder="Type component's name to search"
         id="component-search" autofocus />
       <div class="component_viewer__toolbar">
-        <!-- <button class="btn" title="shortcuts">S</button> -->
+        <button class="btn" title="View all keyboard shortcuts" data-bs-toggle="modal" data-bs-target="#shortcuts-modal"><i class="fa-solid fa-wand-sparkles"></i></button>
         <button class="btn" title="Lock / unlock component" id="lock_component"><i class="fa-solid fa-lock"></i></button>
         <!-- <button class="btn" title="Clear search input">C</button> -->
       </div>
@@ -47,6 +47,26 @@
           <span id="toast-message"></span>
         </div>
         <button type="button" class="col-2 btn btn-danger btn-sm" data-bs-dismiss="toast">X</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="shortcuts-modal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5">Keyboard shortcuts</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body row">
+          <table class="table table-borderless">
+            <tbody id="keyboard-shortcuts">
+            </tbody>
+          </table>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
       </div>
     </div>
   </div>

@@ -1,68 +1,72 @@
 .basicpage {
-    padding: 20px;
+  padding: 20px;
 }
 
-.component-list-header, .dump-placeholder {
-    font-weight: 600;
+.component-list-header,
+.dump-placeholder {
+  font-weight: 600;
 }
 
 .dump-placeholder {
-    text-align: center;
+  text-align: center;
 }
 
 .component-search {
-    background-image: url(https://cdn1.iconfinder.com/data/icons/hawcons/32/698956-icon-111-search-128.png);
-    background-size: 25px;
-    background-repeat: no-repeat;
-    background-position: 10px;
-    padding: 10px 20px 10px 40px;
-    font-size: 14px;
-    border-radius: 0;
+  background-image: url(https://cdn1.iconfinder.com/data/icons/hawcons/32/698956-icon-111-search-128.png);
+  background-size: 25px;
+  background-repeat: no-repeat;
+  background-position: 10px;
+  padding: 10px 20px 10px 40px;
+  font-size: 14px;
+  border-radius: 0;
 }
 .component-search:focus {
-    box-shadow: none;
+  box-shadow: none;
 }
 
 .hide-panel {
-    float: right;
-    border: 1px solid black;
-    border-radius: 0;
-    margin: 0;
-    padding: 0;
-    margin-bottom: 8px;
-    background: lightgrey;
-    font-size: 20px;
+  float: right;
+  border: 1px solid black;
+  border-radius: 0;
+  margin: 0;
+  padding: 0;
+  margin-bottom: 8px;
+  background: lightgrey;
+  font-size: 20px;
 }
 
 #generalToast button {
-    width: 15%;
+  width: 15%;
 }
 
 .component_viewer__toolbar {
-    // border: 1px solid black;
-    background-color: aliceblue;
-    
-    button {
-        // background-color: cornflowerblue;
-        color: black;
-    }
+  background-color: aliceblue;
 
-    button.locked {
-        color: red;
-    }
+  button {
+    color: black;
+  }
+
+  button.locked {
+    color: red;
+  }
 }
 
 .component_lock_indicator {
-    float: right;
-    display: none;
-    margin-top: 3px;
+  float: right;
+  display: none;
+  margin-top: 3px;
 }
 
 .isLocked > .component_lock_indicator {
-    display: initial;
+  display: initial;
 }
 
 #component-list .hide {
-    display: none;
+  display: none;
 }
 
+.light-text {
+  font-weight: 100;
+  color: darkslategrey;
+  font-size: 13px;
+}

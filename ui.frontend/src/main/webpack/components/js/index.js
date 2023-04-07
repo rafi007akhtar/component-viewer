@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-import { getHTML } from "../../helpers/util";
+import { getHTML, createElem } from "../../helpers/util";
 
 const componentFiles = require.context("../html/", false, /\.html$/).keys();
 
@@ -17,7 +17,7 @@ let selectedComponent = null;
 const componentList = document.querySelector("#component-list");
 const generalToast = document.querySelector("#generalToast");
 const toast = bootstrap.Toast.getOrCreateInstance(generalToast);
-const toastMessageElem = document.querySelector('#toast-message');
+const toastMessageElem = document.querySelector("#toast-message");
 let lockedComponent = localStorage.getItem("selectedComponent");
 
 /**
@@ -83,7 +83,8 @@ function hidePanel() {
   panel.style.display = "none";
   componentView.classList.remove("col-8");
   componentView.classList.add("col-12");
-  toastMessageElem.innerText = 'Panel Hidden! To bring it back, press Ctrl + Right Arrow Key, or refresh.';
+  toastMessageElem.innerText =
+    "Panel Hidden! To bring it back, press Ctrl + Right Arrow Key, or refresh.";
   toast.show();
 }
 
@@ -146,7 +147,8 @@ if (lockedComponent) {
 
 lockComponentButton.onclick = () => {
   if (!selectedComponent) {
-    toastMessageElem.innerText = 'Please first select a component in order to lock it.';
+    toastMessageElem.innerText =
+      "Please first select a component in order to lock it.";
     toast.show();
     return;
   }
@@ -201,8 +203,53 @@ document.onkeyup = (e) => {
     if (e.key === "ArrowLeft") {
       hidePanel();
     }
+    if (e.shiftKey && "S") {
+      document.querySelector("#component-search").focus();
+    }
   }
-  if (e.altKey && e.shiftKey && 'lL'.match(e.key)) {  // left Alt + left Shift + L (or l)
+  if (e.altKey && e.shiftKey && "lL".match(e.key)) {
     handleLockComponent();
   }
 };
+
+const shortcutDescriptions = [
+  {
+    shortcut: "Ctrl + Left Arrow Key ◀",
+    description: "Hide the components panel",
+  },
+  {
+    shortcut: "Ctrl + Right Arrow Key ▶",
+    description: "Show the components panel",
+  },
+  {
+    shortcut: "Alt + Shift + L",
+    description: "Toggle lock / unlock component. ",
+    subdescription:
+      "To lock a component, select it and hit this shortcut. To unlock a component, hit this shortcut again.",
+  },
+  {
+    shortcut: "Ctrl + Shift + S",
+    description: "Puts the search bar in focus",
+  },
+];
+
+const shortCutsTable = document.querySelector("#keyboard-shortcuts");
+shortcutDescriptions.forEach((obj) => {
+  const row = createElem("tr", {
+    children: [
+      createElem("td", { text: obj.shortcut }),
+      createElem("td", {
+        text: obj.description,
+        children: obj.subdescription
+          ? [
+              createElem("p", {
+                text: obj.subdescription,
+                classes: "light-text",
+              }),
+            ]
+          : null,
+      }),
+    ],
+  });
+  shortCutsTable.append(row);
+});
