@@ -28,7 +28,7 @@
         id="component-search" autofocus />
       <div class="component_viewer__toolbar">
         <!-- <button class="btn" title="shortcuts">S</button> -->
-        <button class="btn" title="Lock the selected component" id="lock_component"><i class="fa-solid fa-lock"></i></button>
+        <button class="btn" title="Lock / unlock component" id="lock_component"><i class="fa-solid fa-lock"></i></button>
         <!-- <button class="btn" title="Clear search input">C</button> -->
       </div>
       <div class="list-group" id="component-list"></div>
@@ -41,9 +41,11 @@
   </div>
 
   <div class="toast-container position-fixed p-3 bottom-0 start-50 translate-middle-x">
-    <div id="panelToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+    <div id="generalToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
       <div class="toast-body row">
-        <div class="col-10">Panel Hidden! To bring it back, press Ctrl + Right Arrow Key, or refresh.</div>
+        <div class="col-10">
+          <span id="toast-message"></span>
+        </div>
         <button type="button" class="col-2 btn btn-danger btn-sm" data-bs-dismiss="toast">X</button>
       </div>
     </div>

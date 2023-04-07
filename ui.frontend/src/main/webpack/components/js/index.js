@@ -13,8 +13,11 @@ const COMPONENTS = componentFiles.map((file) => {
 
 let selectedComponent = null;
 
-// add buttons for each component in the DOM
+// get some DOM elements that will be needed throughout the file
 const componentList = document.querySelector("#component-list");
+const generalToast = document.querySelector("#generalToast");
+const toast = bootstrap.Toast.getOrCreateInstance(generalToast);
+const toastMessageElem = document.querySelector('#toast-message');
 let lockedComponent = localStorage.getItem("selectedComponent");
 
 /**
@@ -25,17 +28,12 @@ let lockedComponent = localStorage.getItem("selectedComponent");
 function generateComponentList() {
   componentList.innerHTML = "";
   let searchedComponents = [...COMPONENTS];
-  // if (searchTerms) {
-  //   searchedComponents = searchedComponents.filter((comp) =>
-  //     comp.toLowerCase().includes(searchTerms.toLowerCase())
-  //   );
-  // }
 
   const lockIcon = document.createElement("i");
   lockIcon.setAttribute("class", "fa-solid fa-lock component_lock_indicator");
-  // eslint-disable-next-line max-len
   lockIcon.setAttribute(
     "title",
+    // eslint-disable-next-line max-len
     "This component has been locked. That means when you refresh, this component will load automatically. To unlock this component, toggle the Lock button in the toolbar."
   );
 
@@ -43,7 +41,6 @@ function generateComponentList() {
     const el = document.createElement("button");
     el.setAttribute("type", "button");
     el.setAttribute("class", `list-group-item list-group-item-action ${comp}`);
-    console.log("lock html", lockIcon.outerHTML);
     el.innerHTML = comp + lockIcon.outerHTML;
     el.onclick = () => {
       selectAComponent(comp, el);
@@ -51,14 +48,18 @@ function generateComponentList() {
     componentList.append(el);
   });
 }
-
 generateComponentList();
 
+// set event listener for search
 const componentSearch = document.querySelector("#component-search");
 componentSearch.onkeyup = () => {
   conductComponentSearch(componentSearch.value);
 };
 
+/**
+ * Uses the search terms provided in the input field to show only the matching components
+ * @param {string} searchTerms The search keywords entered in the input field
+ */
 function conductComponentSearch(searchTerms) {
   const components = document.querySelectorAll("#component-list > button");
   components.forEach((comp) => {
@@ -82,14 +83,8 @@ function hidePanel() {
   panel.style.display = "none";
   componentView.classList.remove("col-8");
   componentView.classList.add("col-12");
-
-  const toastTrigger = document.getElementById("hide-panel");
-  const toastLiveExample = document.getElementById("panelToast");
-  if (toastTrigger) {
-    const toastBootstrap =
-      bootstrap.Toast.getOrCreateInstance(toastLiveExample);
-    toastBootstrap.show();
-  }
+  toastMessageElem.innerText = 'Panel Hidden! To bring it back, press Ctrl + Right Arrow Key, or refresh.';
+  toast.show();
 }
 
 /**
@@ -103,20 +98,6 @@ function showPanel() {
 
 hidePanelButton.onclick = () => {
   hidePanel();
-};
-
-document.onkeyup = (e) => {
-  if (e.ctrlKey) {
-    if (e.key === "ArrowRight") {
-      showPanel();
-    }
-    if (e.key === "ArrowLeft") {
-      hidePanel();
-    }
-  }
-  if (e.altKey && e.shiftKey && 'lL'.match(e.key)) {  // left
-    handleLockComponent();
-  }
 };
 
 /**
@@ -152,7 +133,7 @@ function displayComponent(name) {
 }
 
 /**
- * Lock the selected component
+ * Automatically load a locked component.
  */
 const lockComponentButton = document.querySelector("#lock_component");
 if (lockedComponent) {
@@ -164,13 +145,21 @@ if (lockedComponent) {
 }
 
 lockComponentButton.onclick = () => {
-  console.log("selected component:", selectedComponent);
   if (!selectedComponent) {
+    toastMessageElem.innerText = 'Please first select a component in order to lock it.';
+    toast.show();
     return;
   }
   handleLockComponent();
 };
 
+/**
+ * This function will run when the lock button is toggled.
+ * If a component is selected and no component is locked, it will lock the selected component.
+ * If a component is already locked, it will unlock that component.
+ * If no component is selected and no component is locked,
+ *  it will show an error message asking user to select a component.
+ */
 function handleLockComponent() {
   lockedComponent = localStorage.getItem("selectedComponent");
 
@@ -181,14 +170,39 @@ function handleLockComponent() {
   }
 }
 
+/**
+ * Lock the given component, and show a toast message on success.
+ * @param {string} name the name of the component file without .html extension
+ */
 function lockAComponent(name) {
   localStorage.setItem("selectedComponent", name);
   lockComponentButton.classList.add("locked");
   document.querySelector(`.${name}`).classList.add("isLocked");
+  // eslint-disable-next-line max-len
+  toastMessageElem.innerText = `Component ${name} is now locked. To unlock it, press the lock key again, or click Alt + Shift + L.`;
+  toast.show();
 }
 
+/** Unlock the currently locked component, and show a toast message on success. */
 function unlockSelectedComponent() {
   localStorage.removeItem("selectedComponent");
   lockComponentButton.classList.remove("locked");
   document.querySelector(".isLocked").classList.remove("isLocked");
+  toastMessageElem.innerText = `Selected component is now unlocked.`;
+  toast.show();
 }
+
+// KEYBOARD SHORTCUTS - this is where they are all defined.
+document.onkeyup = (e) => {
+  if (e.ctrlKey) {
+    if (e.key === "ArrowRight") {
+      showPanel();
+    }
+    if (e.key === "ArrowLeft") {
+      hidePanel();
+    }
+  }
+  if (e.altKey && e.shiftKey && 'lL'.match(e.key)) {  // left Alt + left Shift + L (or l)
+    handleLockComponent();
+  }
+};
