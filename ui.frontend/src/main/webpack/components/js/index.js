@@ -228,7 +228,7 @@ document.onkeyup = (e) => {
     if (e.shiftKey && "S") {
       focusOnInputField();
     }
-    if (e.key === 'Backspace') {
+    if (e.shiftKey && e.key === 'Backspace') {
       clearInputField();
     }
   }
@@ -240,7 +240,7 @@ document.onkeyup = (e) => {
 const shortcutDescriptions = [
   {
     shortcut: "Ctrl + Alt + V",
-    description: "Show / hide the keyboard shortcuts modal"
+    description: "View / hide the keyboard shortcuts modal"
   },
   {
     shortcut: "Ctrl + Left Arrow Key ◀",
@@ -261,7 +261,7 @@ const shortcutDescriptions = [
     description: "Puts the search bar in focus",
   },
   {
-    shortcut: "Ctrl + Backspace",
+    shortcut: "Ctrl + Shift + Backspace",
     description: "Clear the contents of the search bar even when you are not focused on it"
   }
 ];
