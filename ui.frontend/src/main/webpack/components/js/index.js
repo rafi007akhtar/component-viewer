@@ -40,7 +40,6 @@ if (panelIsHidden) {
  */
 function generateComponentList() {
   componentList.innerHTML = "";
-  let searchedComponents = [...COMPONENTS];
 
   const lockIcon = document.createElement("i");
   lockIcon.setAttribute("class", "fa-solid fa-lock component_lock_indicator");
@@ -50,7 +49,7 @@ function generateComponentList() {
     "This component has been locked. That means when you refresh, this component will load automatically. To unlock this component, toggle the Lock button in the toolbar."
   );
 
-  searchedComponents.forEach((comp) => {
+  COMPONENTS.forEach((comp) => {
     const el = document.createElement("button");
     el.setAttribute("type", "button");
     el.setAttribute("class", `list-group-item list-group-item-action ${comp}`);
@@ -271,7 +270,10 @@ const shortCutsTable = document.querySelector("#keyboard-shortcuts");
 shortcutDescriptions.forEach((obj) => {
   const row = createElem("tr", {
     children: [
-      createElem("td", { text: obj.shortcut }),
+      createElem("td", {
+        text: obj.shortcut,
+        classes: 'shortcut-combination'
+      }),
       createElem("td", {
         text: obj.description,
         children: obj.subdescription
