@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-import { getHTML, createElem } from "../../helpers/util";
+import { getHTML, createElem, toastEmitter } from "../../helpers/util";
 
 const componentFiles = require.context("../html/", false, /\.html$/).keys();
 
@@ -15,9 +15,7 @@ let selectedComponent = null;
 
 // get some DOM elements and data that will be needed throughout the file
 const componentList = document.querySelector("#component-list");
-const generalToast = document.querySelector("#generalToast");
-const toast = bootstrap.Toast.getOrCreateInstance(generalToast);
-const toastMessageElem = document.querySelector("#toast-message");
+const toast = toastEmitter('generalToast', 'toast-message');
 let lockedComponent = localStorage.getItem("selectedComponent");
 let panelIsHidden = localStorage.getItem("panelIsHidden");
 const hidePanelButton = document.querySelector("#hide-panel");
@@ -94,9 +92,7 @@ function hidePanel() {
   panel.style.display = "none";
   componentView.classList.remove("col-8");
   componentView.classList.add("col-12");
-  toastMessageElem.innerText =
-    "Panel Hidden! To bring it back, press Ctrl + Right Arrow Key, or refresh.";
-  toast.show();
+  toast.show("Panel Hidden! To bring it back, press Ctrl + Right Arrow Key, or refresh.");
   localStorage.setItem("panelIsHidden", "true");
 }
 
@@ -162,9 +158,7 @@ if (lockedComponent) {
 
 lockComponentButton.onclick = () => {
   if (!selectedComponent) {
-    toastMessageElem.innerText =
-      "Please first select a component in order to lock it.";
-    toast.show();
+    toast.show("Please first select a component in order to lock it.");
     return;
   }
   handleLockComponent();
@@ -195,9 +189,7 @@ function lockAComponent(name) {
   localStorage.setItem("selectedComponent", name);
   lockComponentButton.classList.add("locked");
   document.querySelector(`.${name}`).classList.add("isLocked");
-  // eslint-disable-next-line max-len
-  toastMessageElem.innerText = `Component ${name} is now locked. To unlock it, press the lock key again, or click Alt + Shift + L.`;
-  toast.show();
+  toast.show(`Component ${name} is now locked. To unlock it, press the lock key again, or click Alt + Shift + L.`);
 }
 
 /** Unlock the currently locked component, and show a toast message on success. */
@@ -205,8 +197,7 @@ function unlockSelectedComponent() {
   localStorage.removeItem("selectedComponent");
   lockComponentButton.classList.remove("locked");
   document.querySelector(".isLocked").classList.remove("isLocked");
-  toastMessageElem.innerText = `Selected component is now unlocked.`;
-  toast.show();
+  toast.show(`Selected component is now unlocked.`);
 }
 
 // implement clear input functionality
@@ -226,6 +217,9 @@ document.onkeyup = (e) => {
   // console.log('key pressed:', e);  // uncomment to help when creating new shortcuts
 
   if (e.ctrlKey || e.code) {
+    if (e.altKey && e.key === 'v') {
+      document.querySelector('#btn__keyboard-shortcuts').click();
+    }
     if (e.key === "ArrowRight") {
       showPanel();
     }
@@ -245,6 +239,10 @@ document.onkeyup = (e) => {
 };
 
 const shortcutDescriptions = [
+  {
+    shortcut: "Ctrl + Alt + V",
+    description: "Show / hide the keyboard shortcuts modal"
+  },
   {
     shortcut: "Ctrl + Left Arrow Key ◀",
     description: "Hide the components panel",

@@ -42,4 +42,19 @@ function createElem(tagName, opts) {
     return elem;
 }
 
-export { createElem, getHTML };
+function toastEmitter(toastId, toastMessageId) {
+    const toastElem = document.getElementById(toastId);
+    const toast = bootstrap.Toast.getOrCreateInstance(toastElem);
+    const toastMessageElem = document.getElementById(toastMessageId);
+
+    const toastObj = {
+        show: (message) => {
+            toastMessageElem.innerText = message;
+            toast.show();
+        }
+    };
+
+    return toastObj;
+}
+
+export { createElem, getHTML, toastEmitter };

@@ -34,7 +34,7 @@
 
       <!-- Toolbar begins -->
       <div class="component_viewer__toolbar">
-        <button class="btn btn__keyboard-shortcuts" title="View all keyboard shortcuts" data-bs-toggle="modal" data-bs-target="#shortcuts-modal"><i class="fa-regular fa-keyboard"></i></button>
+        <button class="btn btn__keyboard-shortcuts" title="View all keyboard shortcuts" data-bs-toggle="modal" data-bs-target="#shortcuts-modal" id="btn__keyboard-shortcuts"><i class="fa-regular fa-keyboard"></i></button>
         <button class="btn" title="Lock / unlock component" id="lock_component"><i class="fa-solid fa-lock"></i></button>
         <button class="btn" title="Clear search input" id="clear_input"><i class="fa-solid fa-text-slash"></i></button>
       </div>
@@ -81,6 +81,11 @@
             <tbody id="keyboard-shortcuts">
             </tbody>
           </table>
+          <div class="light-text">
+            <strong>Note.</strong> When using Ctrl, Alt or Shift keys for shortcuts, please use their left keys on the keyboard. 
+            The right keys might not work.
+            Also, make sure CAPS lock is turned off before using these shortcuts.
+          </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
