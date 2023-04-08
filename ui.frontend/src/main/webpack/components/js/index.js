@@ -13,12 +13,27 @@ const COMPONENTS = componentFiles.map((file) => {
 
 let selectedComponent = null;
 
-// get some DOM elements that will be needed throughout the file
+// get some DOM elements and data that will be needed throughout the file
 const componentList = document.querySelector("#component-list");
 const generalToast = document.querySelector("#generalToast");
 const toast = bootstrap.Toast.getOrCreateInstance(generalToast);
 const toastMessageElem = document.querySelector("#toast-message");
 let lockedComponent = localStorage.getItem("selectedComponent");
+let panelIsHidden = localStorage.getItem("panelIsHidden");
+const hidePanelButton = document.querySelector("#hide-panel");
+const panel = document.querySelector("#panel");
+const componentView = document.querySelector("#component-view");
+const clearInputButton = document.querySelector("#clear_input");
+
+// remember the visibility of panel earlier
+// if the panel was hidden while a component was locked, keep it hidden
+if (panelIsHidden) {
+  if (lockedComponent) {
+    hidePanel();
+  } else {
+    localStorage.removeItem("panelIsHidden");
+  }
+}
 
 /**
  * To generate the list of components on the left panel of the index page
@@ -72,10 +87,6 @@ function conductComponentSearch(searchTerms) {
 }
 
 // implement show / hide panel functionality
-const hidePanelButton = document.querySelector("#hide-panel");
-const panel = document.querySelector("#panel");
-const componentView = document.querySelector("#component-view");
-
 /**
  * Hides the left panel containing component list, and gives all the columns to the selected component
  */
@@ -86,6 +97,7 @@ function hidePanel() {
   toastMessageElem.innerText =
     "Panel Hidden! To bring it back, press Ctrl + Right Arrow Key, or refresh.";
   toast.show();
+  localStorage.setItem("panelIsHidden", "true");
 }
 
 /**
@@ -95,6 +107,7 @@ function showPanel() {
   panel.style.display = "block";
   componentView.classList.remove("col-12");
   componentView.classList.add("col-8");
+  localStorage.removeItem("panelIsHidden");
 }
 
 hidePanelButton.onclick = () => {
@@ -118,6 +131,8 @@ function selectAComponent(name, el) {
     currentlyActive.classList.remove("active");
   }
   el.classList.add("active");
+
+  lockedComponent = localStorage.getItem("selectedComponent");
   if (lockedComponent && lockedComponent === name) {
     el.classList.add("isLocked");
   }
@@ -194,9 +209,23 @@ function unlockSelectedComponent() {
   toast.show();
 }
 
+// implement clear input functionality
+
+function clearInputField() {
+  componentSearch.value = "";
+  conductComponentSearch(componentSearch.value);
+  focusOnInputField();
+}
+function focusOnInputField() {
+  document.querySelector("#component-search").focus();
+}
+clearInputButton.onclick = clearInputField;
+
 // KEYBOARD SHORTCUTS - this is where they are all defined.
 document.onkeyup = (e) => {
-  if (e.ctrlKey) {
+  // console.log('key pressed:', e);  // uncomment to help when creating new shortcuts
+
+  if (e.ctrlKey || e.code) {
     if (e.key === "ArrowRight") {
       showPanel();
     }
@@ -204,7 +233,10 @@ document.onkeyup = (e) => {
       hidePanel();
     }
     if (e.shiftKey && "S") {
-      document.querySelector("#component-search").focus();
+      focusOnInputField();
+    }
+    if (e.key === 'Backspace') {
+      clearInputField();
     }
   }
   if (e.altKey && e.shiftKey && "lL".match(e.key)) {
@@ -223,7 +255,7 @@ const shortcutDescriptions = [
   },
   {
     shortcut: "Alt + Shift + L",
-    description: "Toggle lock / unlock component. ",
+    description: "Toggle lock / unlock component",
     subdescription:
       "To lock a component, select it and hit this shortcut. To unlock a component, hit this shortcut again.",
   },
@@ -231,6 +263,10 @@ const shortcutDescriptions = [
     shortcut: "Ctrl + Shift + S",
     description: "Puts the search bar in focus",
   },
+  {
+    shortcut: "Ctrl + Backspace",
+    description: "Clear the contents of the search bar even when you are not focused on it"
+  }
 ];
 
 const shortCutsTable = document.querySelector("#keyboard-shortcuts");

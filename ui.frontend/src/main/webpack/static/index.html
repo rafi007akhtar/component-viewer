@@ -18,28 +18,44 @@
 
 <body class="page basicpage">
   <div class="row">
+
+    <!-- Panel begins -->
     <div class="col-4" id="panel">
       <div class="component-list-header">
         <button class="btn hide-panel" title="Click to hide the component list panel (or press Ctrl + Left Arrow Key)"
           id="hide-panel">◀</button>
         List of components
       </div>
+
+      <!-- Search bar begins -->
       <input type="text" class="component-search form-control" placeholder="Type component's name to search"
         id="component-search" autofocus />
+      <!-- Search bar ends -->
+
+      <!-- Toolbar begins -->
       <div class="component_viewer__toolbar">
-        <button class="btn" title="View all keyboard shortcuts" data-bs-toggle="modal" data-bs-target="#shortcuts-modal"><i class="fa-solid fa-wand-sparkles"></i></button>
+        <button class="btn btn__keyboard-shortcuts" title="View all keyboard shortcuts" data-bs-toggle="modal" data-bs-target="#shortcuts-modal"><i class="fa-regular fa-keyboard"></i></button>
         <button class="btn" title="Lock / unlock component" id="lock_component"><i class="fa-solid fa-lock"></i></button>
-        <!-- <button class="btn" title="Clear search input">C</button> -->
+        <button class="btn" title="Clear search input" id="clear_input"><i class="fa-solid fa-text-slash"></i></button>
       </div>
+      <!-- Toolbar ends -->
+
+      <!-- List of components begins -->
       <div class="list-group" id="component-list"></div>
+      <!-- List of components ends -->
     </div>
+    <!-- Panel ends -->
+
+    <!-- Component view begins -->
     <div class="col-8" id="component-view">
       <div id="dump" class="dump">
         <div class="dump-placeholder">Select a component to view it here.</div>
       </div>
     </div>
+    <!-- Component view ends -->
   </div>
 
+  <!-- Div for toast messages begins -->
   <div class="toast-container position-fixed p-3 bottom-0 start-50 translate-middle-x">
     <div id="generalToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
       <div class="toast-body row">
@@ -50,7 +66,9 @@
       </div>
     </div>
   </div>
+  <!-- Div for toast messages ends -->
 
+  <!-- Modal for keyboard shortcuts begins -->
   <div class="modal fade" id="shortcuts-modal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -70,6 +88,7 @@
       </div>
     </div>
   </div>
+  <!-- Modal for keyboard shortcuts ends -->
 
   <script type="text/javascript" src="/etc.clientlibs/compv/clientlibs/clientlib-site.js"></script>
   <script type="text/javascript" src="/etc.clientlibs/compv/clientlibs/clientlib-base.js"></script>
