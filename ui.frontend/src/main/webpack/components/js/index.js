@@ -27,7 +27,7 @@ const clearInputButton = document.querySelector("#clear_input");
 // if the panel was hidden while a component was locked, keep it hidden
 if (panelIsHidden) {
   if (lockedComponent) {
-    hidePanel();
+    hidePanel(true);
   } else {
     localStorage.removeItem("panelIsHidden");
   }
@@ -87,11 +87,13 @@ function conductComponentSearch(searchTerms) {
 /**
  * Hides the left panel containing component list, and gives all the columns to the selected component
  */
-function hidePanel() {
+function hidePanel(hideToast) {
   panel.style.display = "none";
   componentView.classList.remove("col-8");
   componentView.classList.add("col-12");
-  toast.emit("Panel Hidden! To bring it back, press Ctrl + Right Arrow Key, or refresh.");
+  if (! hideToast) {
+    toast.emit("Panel Hidden! To bring it back, press Ctrl + Right Arrow Key, or refresh.");
+  }
   localStorage.setItem("panelIsHidden", "true");
 }
 

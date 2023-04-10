@@ -76,7 +76,7 @@ function getHTML(componentName) {
  * 
  * 
  */
-function createElem(tagName, opts) {
+function createElem(tagName, opts, style) {
   const elem = document.createElement(tagName);
   if (opts.classes) {
     const classes = opts.classes.split(" ");
@@ -99,6 +99,13 @@ function createElem(tagName, opts) {
   if (opts.children && opts.children.length) {
     opts.children.forEach((child) => {
       elem.append(child);
+    });
+  }
+
+  if (style) {
+    const styles = Object.keys(style);
+    styles.forEach(prop => {
+        elem.style[prop] = style[prop];
     });
   }
 
