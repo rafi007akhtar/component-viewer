@@ -127,6 +127,7 @@ function selectAComponent(name, el) {
   }
   el.classList.add("active");
 
+  // put the lock indicator on the component that is locked
   lockedComponent = localStorage.getItem("selectedComponent");
   if (lockedComponent && lockedComponent === name) {
     el.classList.add("isLocked");
@@ -156,10 +157,6 @@ if (lockedComponent) {
 }
 
 lockComponentButton.onclick = () => {
-  if (!selectedComponent) {
-    toast.emit("Please first select a component in order to lock it.");
-    return;
-  }
   handleLockComponent();
 };
 
@@ -171,6 +168,11 @@ lockComponentButton.onclick = () => {
  *  it will show an error message asking user to select a component.
  */
 function handleLockComponent() {
+  if (!selectedComponent) {
+    toast.emit("Please first select a component in order to lock it.");
+    return;
+  }
+
   lockedComponent = localStorage.getItem("selectedComponent");
 
   if (lockedComponent) {
@@ -199,13 +201,14 @@ function unlockSelectedComponent() {
   toast.emit(`Selected component is now unlocked.`);
 }
 
-// implement clear input functionality
-
+// implement clear input functionality on click of the corresponding button in the toolbar.
+/** Clear the search bar, and focus on it. */
 function clearInputField() {
   componentSearch.value = "";
   conductComponentSearch(componentSearch.value);
   focusOnInputField();
 }
+/** Focus on the search bar. */
 function focusOnInputField() {
   document.querySelector("#component-search").focus();
 }
@@ -215,7 +218,7 @@ clearInputButton.onclick = clearInputField;
 document.onkeyup = (e) => {
   // console.log('key pressed:', e);  // uncomment to help when creating new shortcuts
 
-  if (e.ctrlKey || e.code) {
+  if (e.ctrlKey) {
     if (e.altKey && e.key === 'v') {
       document.querySelector('#btn__keyboard-shortcuts').click();
     }
@@ -237,6 +240,15 @@ document.onkeyup = (e) => {
   }
 };
 
+/**
+ * NOTE: When creating a new shortcut in the function above, please add an object in the below array for that shortcut.
+ * The object will take two mandatory key-value pairs, and one optional one.
+ * The mandatory ones are:
+ *  * shortcut: this will contain the string containing the shortcut combination, like "Ctrl + Backspace".
+ *  * description: This will contain a string that describes what the shortcut does.
+ * Optional one:
+ *  * subdescription: Further explanation of the shortcut, if required. Shown as a light text below the description.
+ */
 const shortcutDescriptions = [
   {
     shortcut: "Ctrl + Alt + V",
@@ -266,6 +278,7 @@ const shortcutDescriptions = [
   }
 ];
 
+// The following logic takes care of adding all the shortcut descriptions in the modal for keyboard shortcuts.
 const shortCutsTable = document.querySelector("#keyboard-shortcuts");
 shortcutDescriptions.forEach((obj) => {
   const row = createElem("tr", {
