@@ -91,7 +91,7 @@ function hidePanel() {
   panel.style.display = "none";
   componentView.classList.remove("col-8");
   componentView.classList.add("col-12");
-  toast.show("Panel Hidden! To bring it back, press Ctrl + Right Arrow Key, or refresh.");
+  toast.emit("Panel Hidden! To bring it back, press Ctrl + Right Arrow Key, or refresh.");
   localStorage.setItem("panelIsHidden", "true");
 }
 
@@ -157,7 +157,7 @@ if (lockedComponent) {
 
 lockComponentButton.onclick = () => {
   if (!selectedComponent) {
-    toast.show("Please first select a component in order to lock it.");
+    toast.emit("Please first select a component in order to lock it.");
     return;
   }
   handleLockComponent();
@@ -188,7 +188,7 @@ function lockAComponent(name) {
   localStorage.setItem("selectedComponent", name);
   lockComponentButton.classList.add("locked");
   document.querySelector(`.${name}`).classList.add("isLocked");
-  toast.show(`Component ${name} is now locked. To unlock it, press the lock key again, or click Alt + Shift + L.`);
+  toast.emit(`Component ${name} is now locked. To unlock it, press the lock key again, or click Alt + Shift + L.`);
 }
 
 /** Unlock the currently locked component, and show a toast message on success. */
@@ -196,7 +196,7 @@ function unlockSelectedComponent() {
   localStorage.removeItem("selectedComponent");
   lockComponentButton.classList.remove("locked");
   document.querySelector(".isLocked").classList.remove("isLocked");
-  toast.show(`Selected component is now unlocked.`);
+  toast.emit(`Selected component is now unlocked.`);
 }
 
 // implement clear input functionality

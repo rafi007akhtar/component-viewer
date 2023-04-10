@@ -48,7 +48,7 @@ function toastEmitter(toastId, toastMessageId) {
     const toastMessageElem = document.getElementById(toastMessageId);
 
     const toastObj = {
-        show: (message) => {
+        emit: (message) => {
             toastMessageElem.innerText = message;
             toast.show();
         }
