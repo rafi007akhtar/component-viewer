@@ -78,34 +78,37 @@ function getHTML(componentName) {
  */
 function createElem(tagName, opts, style) {
   const elem = document.createElement(tagName);
-  if (opts.classes) {
-    const classes = opts.classes.split(" ");
-    classes.forEach((className) => {
-      elem.classList.add(className);
-    });
-  }
 
-  if (opts.attributes) {
-    const attributes = Object.keys(opts.attributes);
-    attributes.forEach((attrKey) => {
-      elem.setAttribute(attrKey, opts.attributes[attrKey]);
-    });
-  }
+  if (opts) {
+    if (opts.classes) {
+      const classes = opts.classes.split(" ");
+      classes.forEach((className) => {
+        elem.classList.add(className);
+      });
+    }
 
-  if (opts.text) {
-    elem.innerText = opts.text;
-  }
+    if (opts.attributes) {
+      const attributes = Object.keys(opts.attributes);
+      attributes.forEach((attrKey) => {
+        elem.setAttribute(attrKey, opts.attributes[attrKey]);
+      });
+    }
 
-  if (opts.children && opts.children.length) {
-    opts.children.forEach((child) => {
-      elem.append(child);
-    });
+    if (opts.text) {
+      elem.innerText = opts.text;
+    }
+
+    if (opts.children && opts.children.length) {
+      opts.children.forEach((child) => {
+        elem.append(child);
+      });
+    }
   }
 
   if (style) {
     const styles = Object.keys(style);
-    styles.forEach(prop => {
-        elem.style[prop] = style[prop];
+    styles.forEach((prop) => {
+      elem.style[prop] = style[prop];
     });
   }
 
