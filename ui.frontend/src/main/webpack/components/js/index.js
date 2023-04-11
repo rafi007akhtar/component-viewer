@@ -136,6 +136,11 @@ function selectAComponent(name, el) {
   }
   selectedComponent = name;
   displayComponent(name);
+
+  const js = require(`../js/${name}`);
+  if (js && js.execute) {
+    js.execute();
+  }
 }
 
 /**
