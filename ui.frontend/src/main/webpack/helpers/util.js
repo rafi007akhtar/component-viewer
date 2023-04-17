@@ -18,6 +18,9 @@ function getHTML(componentName) {
  * Dynamically create HTML elements right from your JavaScript, and not be limited by the HTML syntax.
  * @param {string} tagName Name of the HTML tag you wish to create
  * @param {Object} opts An object containing classes (`string`), attributes (`Object`), text (`string`) and children (`Array`) for the HTML element
+ * @param {Object} style An object containing CSS stylings that should be applied to the element in-line.
+ *  Note: In case style is also put as an attribute inside opts, along with the style object,
+ *  and if there happens to be conflict, the style object will have higher preference.
  * @returns an HTML element with the specifications provided
  * 
  * ## Examples
